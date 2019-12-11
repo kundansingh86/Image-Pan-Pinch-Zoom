@@ -9,6 +9,10 @@
         <div class="container" id="container">
             <img src="Koala.jpg" id="imageZoom" />
         </div>
-        <script type="text/javascript" src="touchScript.js"></script>
+        <pre><label id="lblConsole">This is for console</label></pre>
+        <script type="text/javascript" src="touchScriptController.js"></script>
+        <script type="text/javascript">
+            let touchControl = new touchScriptController(document.getElementById('imageZoom'), document.getElementById('container'))
+        </script> 
     </body>
 </html>
