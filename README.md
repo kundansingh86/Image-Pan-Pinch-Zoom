@@ -45,6 +45,6 @@ let touchControl = new touchScriptController(
         });
 ```
 
-For an example, please refer the ``index.html`` file. For cropping the image from CSS transform values refer the ```crop.php``` file and pass the required parameter into it.
+For example, refer the ``index.html`` file and for cropping the image from CSS transform values refer the ```crop.php``` file and pass the required parameters into it.
 
 
