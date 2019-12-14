@@ -12,7 +12,13 @@
         <pre><label id="lblConsole">This is for console</label></pre>
         <script type="text/javascript" src="touchScriptController.js"></script>
         <script type="text/javascript">
-            let touchControl = new touchScriptController(document.getElementById('imageZoom'), document.getElementById('container'))
+            let touchControl = new touchScriptController(
+                    document.getElementById('imageZoom'), 
+                    document.getElementById('container'), {
+                        scale: 1,
+                        translateX: 0,
+                        translateY: 0
+                    });
         </script> 
     </body>
 </html>

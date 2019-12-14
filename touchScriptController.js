@@ -1,10 +1,9 @@
-function touchScriptController(element, parentElement) {
+function touchScriptController(element, parentElement, options) {
     var mouseDown = false, scaling = false;
     var startX = 0, startY = 0;
     
     var adjustScale = 1, adjustDeltaX = 0, adjustDeltaY = 0;
     var currentScale = 1, currentDeltaX = 0, currentDeltaY = 0;
-    var tapTimestamp = 0;
 
     var hypo = undefined;
 
@@ -108,21 +107,9 @@ function touchScriptController(element, parentElement) {
         e.preventDefault();
         mouseDown = !(e.type === 'mouseup');
         
-        let diff = (e.timeStamp - tapTimestamp);
-        
-        if(diff > 100 && diff < 500) {
-            currentScale += 0.5;
-            if(currentScale > 3) {
-                currentScale = 1;
-            }
-    
-            setTransform();
-        }
-    
         adjustScale = currentScale;
         adjustDeltaX = currentDeltaX;
         adjustDeltaY = currentDeltaY;
-        tapTimestamp = e.timeStamp;
         hypo = undefined;
         scaling = false;
     }
@@ -146,6 +133,15 @@ function touchScriptController(element, parentElement) {
     }
     
     function init() {
+
+        if(options) {
+            currentScale = adjustScale = options.scale || 1;
+            currentDeltaX = adjustDeltaX = options.translateX || 0; 
+            currentDeltaY = adjustDeltaY = options.translateY || 0;
+
+            setTransform();
+        }
+    
         bindEvents();
     }
 
