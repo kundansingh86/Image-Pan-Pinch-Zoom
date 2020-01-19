@@ -23,6 +23,11 @@ $width = $iw / $scale;
 $y = $my - (($ih - $bh) / $scale) - $ty * $scale;
 $height = $ih / $scale;
 
+$x = 85 * 2;
+$y = 64 * 2;
+$width = 230 * 2;
+$height = 172 * 2;
+
 $im = imagecreatefromjpeg("Koala.jpg");
 
 $src = imagecrop($im, ['x' => abs($x), 'y' => abs($y), 'width' => $width, 'height' => $height]);

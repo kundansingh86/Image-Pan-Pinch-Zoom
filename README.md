@@ -1,4 +1,4 @@
-# Image Pan-Pinch-Zoom and Crop 
+# Image Pan-Pinch-Zoom
 A javascript library to apply pan, pinch and zoom on an image bound a container box. 
 
 ## Getting Started
@@ -18,11 +18,6 @@ Html, CSS and JS
     height: 400px;
     overflow: hidden;
     border: solid 1px black;
-}
-
-.container img {
-    width: 100%;
-    height: 100%;
 }
 ```
 
@@ -45,6 +40,4 @@ let touchControl = new touchScriptController(
         });
 ```
 
-For example, refer the ``index.html`` file and for cropping the image from CSS transform values refer the ```crop.php``` file and pass the required parameters into it.
-
-
+For example, refer the ``index.html`` file.

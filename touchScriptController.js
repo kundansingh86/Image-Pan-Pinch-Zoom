@@ -6,11 +6,24 @@ function touchScriptController(element, parentElement, options) {
     var currentScale = 1, currentDeltaX = 0, currentDeltaY = 0;
 
     var hypo = undefined;
+    var vpRect = parentElement.getBoundingClientRect();
 
     function addListenerMulti(elem, eventNames, listener) {
         var events = eventNames.split(' ');
         for (var i=0, iLen=events.length; i<iLen; i++) {
             elem.addEventListener(events[i], listener, false);
+        }
+    }
+
+    function adjustImageRect() {
+
+        let imgRatio = element.naturalWidth / element.naturalHeight;
+        let vpRatio = parentElement.clientWidth / parentElement.clientHeight;
+
+        if(imgRatio < vpRatio) {
+            element.style.width = "100%";
+        } else {
+            element.style.height = "100%";
         }
     }
 
@@ -23,26 +36,19 @@ function touchScriptController(element, parentElement, options) {
         element.style.transform = transforms.join(' ');
     }
 
-    function setConstraints() {
-    
-        let minDeltaX = ((element.width * currentScale - parentElement.clientWidth) / (currentScale * 2));
-        let minDeltaY = ((element.height * currentScale - parentElement.clientHeight) / (currentScale * 2));
+    function setConstraints(deltaX, deltaY) {
+        let imgRect = element.getBoundingClientRect();
         
-        if (currentScale < 1) {
-            currentScale = 1;
-            currentDeltaX = 0;
-            currentDeltaY = 0;
+        if (vpRect.top > imgRect.top + deltaY && vpRect.bottom < imgRect.bottom + deltaY) {
+            currentDeltaY = adjustDeltaY + (deltaY / currentScale);
         } 
-        
-        if(Math.abs(currentDeltaX) > minDeltaX) {
-            currentDeltaX = minDeltaX * Math.sign(currentDeltaX);
-        }
-    
-        if(Math.abs(currentDeltaY) > minDeltaY) {
-            currentDeltaY = minDeltaY * Math.sign(currentDeltaY);
-        }
+
+        if (vpRect.left > imgRect.left + deltaX && vpRect.right < imgRect.right + deltaX) {
+            currentDeltaX = adjustDeltaX + (deltaX / currentScale);
+        } 
     }
 
+    
     function bindEvents() {
         addListenerMulti(element, 'touchstart mousedown', handleTouchStart);
         
@@ -88,18 +94,18 @@ function touchScriptController(element, parentElement, options) {
             }
     
             scale = hypoTouchMove / hypo;
+            currentScale = adjustScale * scale;
         }         
         
-        currentScale = adjustScale * scale;
-        currentDeltaX = adjustDeltaX + (deltaX / currentScale);
-        currentDeltaY = adjustDeltaY + (deltaY / currentScale);
+        
         if (currentScale < 1) {
             currentScale = 1;
             currentDeltaX = 0;
             currentDeltaY = 0;
+        } else {
+            setConstraints(deltaX, deltaY);
         }
-    
-        setConstraints();
+        
         setTransform();
     }
 
@@ -142,8 +148,9 @@ function touchScriptController(element, parentElement, options) {
             setTransform();
         }
     
+        adjustImageRect();
         bindEvents();
     }
-
+    
     init();
 }
