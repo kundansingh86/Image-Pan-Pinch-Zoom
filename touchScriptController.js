@@ -37,6 +37,14 @@ function touchScriptController(element, parentElement, options) {
     }
 
     function setConstraints(deltaX, deltaY) {
+
+        if (currentScale < 1) {
+            currentScale = 1;
+            currentDeltaX = 0;
+            currentDeltaY = 0;
+            return;
+        }
+
         let imgRect = element.getBoundingClientRect();
         
         if (vpRect.top > imgRect.top + deltaY && vpRect.bottom < imgRect.bottom + deltaY) {
@@ -98,14 +106,7 @@ function touchScriptController(element, parentElement, options) {
         }         
         
         
-        if (currentScale < 1) {
-            currentScale = 1;
-            currentDeltaX = 0;
-            currentDeltaY = 0;
-        } else {
-            setConstraints(deltaX, deltaY);
-        }
-        
+        setConstraints(deltaX, deltaY);
         setTransform();
     }
 
